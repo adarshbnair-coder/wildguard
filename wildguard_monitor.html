@@ -99,7 +99,10 @@ th, td {
         <span><i class="dot" style="background:#3498db"></i>Deer</span>
         <span><i class="dot" style="background:#2ecc71"></i>Cow</span>
         <span><i class="dot" style="background:#f1c40f"></i>Dog</span>
-        <span><i class="dot" style="background:#9b59b6"></i>Other animals</span>
+        <span><i class="dot" style="background:#9b59b6"></i>Cat</span>
+        <span><i class="dot" style="background:#e67e22"></i>Wild boar</span>
+        <span><i class="dot" style="background:#16a085"></i>Indian gaur</span>
+        <span><i class="dot" style="background:#9b59b6"></i>Other / unknown</span>
     </div>
 </div>
 
@@ -152,6 +155,10 @@ const map = L.map("map").setView([10.0, 76.5], 7);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors"
 }).addTo(map);
+
+// Keep the density heat layer underneath the species-coloured detection markers.
+map.createPane("heatPane");
+map.getPane("heatPane").style.zIndex = 350;
 
 const detectionMarkers = L.layerGroup().addTo(map);
 let heatLayer = null;
@@ -268,7 +275,8 @@ function displayMapData(data) {
         heatLayer = L.heatLayer(heatPoints, {
             radius: 30,
             blur: 20,
-            maxZoom: 17
+            maxZoom: 17,
+            pane: "heatPane"
         }).addTo(map);
     }
 
